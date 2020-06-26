@@ -1,8 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:localiased_app/merchant/home.dart';
+import 'package:localiased_app/services/crud.dart';
+import 'package:localiased_app/services/google.dart';
 import 'package:localiased_app/utils/theme.dart' as Theme;
 import 'package:localiased_app/utils/bubble_indication_painter.dart';
 
@@ -17,6 +21,10 @@ class _MerchantLoginPageState extends State<MerchantLoginPage>
     with SingleTickerProviderStateMixin {
 
   Position _currentPosition;
+  String shopName;
+
+  CrudMethods crudObj = new CrudMethods();
+
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
@@ -424,7 +432,7 @@ class _MerchantLoginPageState extends State<MerchantLoginPage>
               Padding(
                 padding: EdgeInsets.only(top: 10.0, right: 40.0),
                 child: GestureDetector(
-                  onTap: () => showInSnackBar("Facebook button pressed"),
+                  onTap: () => showInSnackBar("This feature is coming soon"),
                   child: Container(
                     padding: const EdgeInsets.all(15.0),
                     decoration: new BoxDecoration(
@@ -441,7 +449,7 @@ class _MerchantLoginPageState extends State<MerchantLoginPage>
               Padding(
                 padding: EdgeInsets.only(top: 10.0),
                 child: GestureDetector(
-                  onTap: () => showInSnackBar("Google button pressed"),
+                  onTap: () => signInWithGoogle(),
                   child: Container(
                     padding: const EdgeInsets.all(15.0),
                     decoration: new BoxDecoration(
@@ -504,6 +512,10 @@ class _MerchantLoginPageState extends State<MerchantLoginPage>
                             hintStyle: TextStyle(
                                 fontFamily: "WorkSansSemiBold", fontSize: 16.0),
                           ),
+                          onChanged: (value)
+                          {
+                            shopName = value;
+                          },
                         ),
                       ),
                       Container(
@@ -656,7 +668,15 @@ class _MerchantLoginPageState extends State<MerchantLoginPage>
                     ),
                     onPressed: ()
                     {
-                      _getCurrentLocation();
+                      Map LocData = {
+                        'shopName' : this.shopName,
+                        'location' : this._currentPosition,
+                      };
+                      crudObj.addData(LocData).then((result){
+                        dailogTrigger(context);
+                      }).catchError((e){
+                        print(e);
+                      });
                     }
               ),
               )
@@ -693,5 +713,26 @@ class _MerchantLoginPageState extends State<MerchantLoginPage>
     setState(() {
       _obscureTextSignupConfirm = !_obscureTextSignupConfirm;
     });
+  }
+
+  Future<bool> dailogTrigger(BuildContext context) async{
+         return showDialog(
+             context: context,
+             barrierDismissible: false,
+             builder: (BuildContext context){
+               return AlertDialog(
+                 title: Text('Congratulations'),
+                 content: Text('Welcome to the Localised Family'),
+                 actions: <Widget>[
+                   FlatButton(
+                       child: Text("Let's Go", style: TextStyle(backgroundColor: Colors.redAccent),),
+                     onPressed: (){
+                       Navigator.of(context).push(MaterialPageRoute(builder: (context) => MHomePage() ),);
+                     }
+                   )
+                 ],
+               );
+             }
+         );
   }
 }
