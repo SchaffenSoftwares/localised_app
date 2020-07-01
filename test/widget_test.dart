@@ -9,11 +9,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:localiased_app/main.dart';
+import 'package:localiased_app/splash/XDsplashscreen.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(SplashScreen());
+    await tester.pumpWidget(XDsplashscreen());
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);
