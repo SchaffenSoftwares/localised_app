@@ -35,8 +35,11 @@ dependencies:
   firebase_auth: ^0.16.0
   google_sign_in: ^4.5.0
   cloud_firestore: ^0.13.5
-  flutter_svg: ^0.18.0
-
+  flutter_svg:
+  adobe_xd:
+  provider:
+  location:
+  flutter_spinkit:
 
 dev_dependencies:
   flutter_test:

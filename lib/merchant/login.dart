@@ -53,6 +53,10 @@ class _MerchantLoginPageState extends State<MerchantLoginPage>
   Color left = Colors.black;
   Color right = Colors.white;
 
+  String email = "";
+  String password = "";
+  String confirmPassword = "";
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -259,6 +263,12 @@ class _MerchantLoginPageState extends State<MerchantLoginPage>
                           focusNode: myFocusNodeEmailLogin,
                           controller: loginEmailController,
                           keyboardType: TextInputType.emailAddress,
+                          onChanged: (val)
+                          {
+                            setState(() {
+                              email = val;
+                            });
+                          },
                           style: TextStyle(
                               fontFamily: "WorkSansSemiBold",
                               fontSize: 16.0,
