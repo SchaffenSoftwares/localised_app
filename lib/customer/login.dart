@@ -235,6 +235,7 @@ class _LoginPageState extends State<LoginPage>
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8.0),
                 ),
+                //login sign up integrated to customer
                 child: Container(
                   width: 300.0,
                   height: 190.0,
